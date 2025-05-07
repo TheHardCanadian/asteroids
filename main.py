@@ -5,9 +5,6 @@ from asteroid import Asteroid
 import random
 from sys import exit
 
-
-
-
 class AsteroidField(pygame.sprite.Sprite):
     edges = [
         [
@@ -88,10 +85,15 @@ def main():
         updatable.update(dt)
 
         for asteroid in asteroids:
-            collisionCheck = asteroid.collision(player)
-            if collisionCheck == True:
+            collisionCheckPlayer = asteroid.collision(player)
+            if collisionCheckPlayer == True:
                 print("Game over!")
                 exit()
+            for shot in shots:
+                collisionCheckBullet = asteroid.collision(shot)
+                if collisionCheckBullet == True:
+                    asteroid.split()
+                    shot.kill()
 
 
         screen.fill("black")
@@ -101,9 +103,6 @@ def main():
 
         pygame.display.flip()
         dt = clock.tick(60)/1000
-
-
-
 
 if __name__ == "__main__":
     main()
